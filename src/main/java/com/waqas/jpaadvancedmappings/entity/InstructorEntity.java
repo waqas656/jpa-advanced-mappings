@@ -28,12 +28,12 @@ public class InstructorEntity {
     private InstructorDetailsEntity instructorDetails;
 
     @OneToMany(mappedBy = "instructor",
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<CourseEntity> coursesList;
 
     public void addCourse(CourseEntity course) {
-        // convenience method for bi-directional mapping
+        // convenience method for bidirectional mapping
         if (coursesList == null) {
             coursesList = new ArrayList<>();
         }

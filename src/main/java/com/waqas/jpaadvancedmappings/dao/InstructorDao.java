@@ -1,7 +1,10 @@
 package com.waqas.jpaadvancedmappings.dao;
 
+import com.waqas.jpaadvancedmappings.entity.CourseEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorDetailsEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorEntity;
+
+import java.util.List;
 
 public interface InstructorDao {
     void save(InstructorEntity instructorEntity);
@@ -14,4 +17,6 @@ public interface InstructorDao {
     void deleteInstructorDetailsOnly(int id);
 
     InstructorEntity findInstructorById(int id);
+
+    List<CourseEntity> findCoursesByInstructorId(int instructorId);
 }

@@ -1,6 +1,7 @@
 package com.waqas.jpaadvancedmappings.dao.impl;
 
 import com.waqas.jpaadvancedmappings.dao.InstructorDao;
+import com.waqas.jpaadvancedmappings.entity.CourseEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorDetailsEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorEntity;
 import jakarta.persistence.EntityManager;
@@ -86,5 +87,16 @@ public class InstructorDaoImpl implements InstructorDao {
     @Override
     public InstructorEntity findInstructorById(int id) {
         return entityManager.find(InstructorEntity.class, id);
+    }
+
+    @Override
+    public List<CourseEntity> findCoursesByInstructorId(int instructorId) {
+        TypedQuery<CourseEntity> query = entityManager
+                .createQuery("FROM CourseEntity WHERE instructor.id = ?1", CourseEntity.class);
+        query.setParameter(1, instructorId);
+
+        List<CourseEntity> coursesList = query.getResultList();
+
+        return coursesList;
     }
 }

@@ -31,8 +31,15 @@ public class JpaAdvancedMappingsApplication {
 //			deleteInstructorDetailsOnly(instructorDao);
 //			createCourseOneToManyMapping(instructorDao);
 //			createInstructorWithCourses(instructorDao);
-			findInstructorWithCourses(instructorDao);
+//			findInstructorWithCourses(instructorDao);
+			findCoursesByInstructorId(instructorDao);
 		};
+	}
+
+	private void findCoursesByInstructorId(InstructorDao instructorDao) {
+		int instructorId = 1;
+		List<CourseEntity> coursesList = instructorDao.findCoursesByInstructorId(instructorId);
+		System.out.println("Courses: " + coursesList);
 	}
 
 	private void findInstructorWithCourses(InstructorDao instructorDao) {
