@@ -19,4 +19,6 @@ public interface InstructorDao {
     InstructorEntity findInstructorById(int id);
 
     List<CourseEntity> findCoursesByInstructorId(int instructorId);
+
+    InstructorEntity findCoursesByInstructorIdUsingJoinFetch(int instructorId);
 }

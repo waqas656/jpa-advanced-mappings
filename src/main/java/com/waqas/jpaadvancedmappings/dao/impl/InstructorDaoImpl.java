@@ -99,4 +99,16 @@ public class InstructorDaoImpl implements InstructorDao {
 
         return coursesList;
     }
+
+    @Override
+    public InstructorEntity findCoursesByInstructorIdUsingJoinFetch(int instructorId) {
+        TypedQuery<InstructorEntity> query = entityManager
+                .createQuery("FROM InstructorEntity i " +
+                        "JOIN FETCH i.coursesList WHERE i.id = :id", InstructorEntity.class);
+        query.setParameter("id", instructorId);
+
+        InstructorEntity instructor = query.getSingleResult();
+
+        return instructor;
+    }
 }

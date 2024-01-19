@@ -31,18 +31,28 @@ public class JpaAdvancedMappingsApplication {
 //			deleteInstructorDetailsOnly(instructorDao);
 //			createCourseOneToManyMapping(instructorDao);
 //			createInstructorWithCourses(instructorDao);
-//			findInstructorWithCourses(instructorDao);
-			findCoursesByInstructorId(instructorDao);
+//			findInstructorWithCoursesUsingEagerFetch(instructorDao);
+//			findCoursesByInstructorIdWithoutJoinFetch(instructorDao);
+			findCoursesByInstructorIdUsingJoinFetch(instructorDao);
 		};
 	}
 
-	private void findCoursesByInstructorId(InstructorDao instructorDao) {
+	private void findCoursesByInstructorIdUsingJoinFetch(InstructorDao instructorDao) {
+		int instructorId = 1;
+
+		InstructorEntity instructor = instructorDao
+				.findCoursesByInstructorIdUsingJoinFetch(instructorId);
+		System.out.println("Instructor: " + instructor);
+		System.out.println("Courses: " + instructor.getCoursesList());
+	}
+
+	private void findCoursesByInstructorIdWithoutJoinFetch(InstructorDao instructorDao) {
 		int instructorId = 1;
 		List<CourseEntity> coursesList = instructorDao.findCoursesByInstructorId(instructorId);
 		System.out.println("Courses: " + coursesList);
 	}
 
-	private void findInstructorWithCourses(InstructorDao instructorDao) {
+	private void findInstructorWithCoursesUsingEagerFetch(InstructorDao instructorDao) {
 		int id = 1;
 		InstructorEntity instructor = instructorDao.findInstructorById(id);
 		System.out.println("Instructor email : " + instructor.getEmail());
