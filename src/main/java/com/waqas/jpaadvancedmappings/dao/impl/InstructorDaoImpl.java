@@ -1,0 +1,90 @@
+package com.waqas.jpaadvancedmappings.dao.impl;
+
+import com.waqas.jpaadvancedmappings.dao.InstructorDao;
+import com.waqas.jpaadvancedmappings.entity.InstructorDetailsEntity;
+import com.waqas.jpaadvancedmappings.entity.InstructorEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Repository
+public class InstructorDaoImpl implements InstructorDao {
+
+    private final EntityManager entityManager;
+
+    public InstructorDaoImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    @Override
+    @Transactional
+    public void save(InstructorEntity instructorEntity) {
+        entityManager.persist(instructorEntity);
+    }
+
+    @Override
+    public InstructorEntity find(Integer id) {
+        return entityManager.find(InstructorEntity.class, id);
+    }
+
+    @Override
+    @Transactional
+    public InstructorEntity updateInstructor(InstructorEntity instructorEntity) {
+        return entityManager.merge(instructorEntity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Integer id) {
+        InstructorEntity instructor = entityManager.find(InstructorEntity.class, id);
+        entityManager.remove(instructor);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByFirstName(String firstName) {
+        TypedQuery<InstructorEntity> query = entityManager
+                .createQuery("FROM InstructorEntity WHERE firstName = ?1",
+                        InstructorEntity.class)
+                .setParameter(1, firstName);
+//                .setParameter("firstName", firstName);
+
+        List<InstructorEntity> instructorsList = query.getResultList();
+
+        for (InstructorEntity instructor : instructorsList) {
+            entityManager.remove(instructor);
+        }
+    }
+
+    @Override //Demo of Bidirectional mapping
+    public InstructorDetailsEntity findInstructorDetailsById(int id) {
+        InstructorDetailsEntity instructorDetails = entityManager.find(InstructorDetailsEntity.class, id);
+        return instructorDetails;
+    }
+
+    @Override
+    @Transactional
+    public void deleteInstructorUsingCascadeInBidirectional(int id) {
+        InstructorDetailsEntity instructorDetails = entityManager.find(InstructorDetailsEntity.class, id);
+        entityManager.remove(instructorDetails);
+    }
+
+    @Override
+    @Transactional
+    public void deleteInstructorDetailsOnly(int id) {
+        InstructorDetailsEntity instructorDetails = entityManager.find(InstructorDetailsEntity.class, id);
+
+        //breaking bidirectional link from 'instructor' entity
+        instructorDetails.getInstructor().setInstructorDetails(null);
+
+        entityManager.remove(instructorDetails);
+    }
+
+    @Override
+    public InstructorEntity findInstructorById(int id) {
+        return entityManager.find(InstructorEntity.class, id);
+    }
+}
