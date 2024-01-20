@@ -33,8 +33,43 @@ public class JpaAdvancedMappingsApplication {
 //			createInstructorWithCourses(instructorDao);
 //			findInstructorWithCoursesUsingEagerFetch(instructorDao);
 //			findCoursesByInstructorIdWithoutJoinFetch(instructorDao);
-			findCoursesByInstructorIdUsingJoinFetch(instructorDao);
+//			findCoursesByInstructorIdUsingJoinFetch(instructorDao);
+//			updateInstructor(instructorDao);
+			updateCourse(instructorDao);
 		};
+	}
+
+	private void updateCourse(InstructorDao instructorDao) {
+		int courseId = 1;
+
+		System.out.println("Finding course with id: " + courseId);
+
+		CourseEntity course = instructorDao.findCourseById(courseId);
+
+		System.out.println("Found the course: " + course);
+
+		System.out.println("Updating course title ..");
+		course.setTitle("Enjoy simple things");
+
+		CourseEntity updatedCourse = instructorDao.updateCourse(course);
+		System.out.println("Updated course: " + updatedCourse);
+	}
+
+	private void updateInstructor(InstructorDao instructorDao) {
+		int instructorId = 1;
+
+		System.out.println("Finding instructor with id: " + instructorId);
+		InstructorEntity instructor = instructorDao.find(instructorId);
+
+		if (instructor != null) {
+			System.out.println("Found the instructor: \n" + instructor);
+			instructor.setLastName("Ahmed");
+
+			InstructorEntity updatedInstructor = instructorDao.updateInstructorUsingId(instructor);
+			System.out.println("Updated instructor : " + updatedInstructor);
+		} else {
+			System.out.println("No instructor found with id : " + instructorId);
+		}
 	}
 
 	private void findCoursesByInstructorIdUsingJoinFetch(InstructorDao instructorDao) {

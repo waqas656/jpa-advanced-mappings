@@ -113,4 +113,21 @@ public class InstructorDaoImpl implements InstructorDao {
 
         return instructor;
     }
+
+    @Override
+    @Transactional
+    public InstructorEntity updateInstructorUsingId(InstructorEntity instructor) {
+        return entityManager.merge(instructor);
+    }
+
+    @Override
+    public CourseEntity findCourseById(int courseId) {
+        return entityManager.find(CourseEntity.class, courseId);
+    }
+
+    @Override
+    @Transactional
+    public CourseEntity updateCourse(CourseEntity course) {
+        return entityManager.merge(course);
+    }
 }
