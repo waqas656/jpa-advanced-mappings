@@ -39,8 +39,15 @@ public class InstructorDaoImpl implements InstructorDao {
 
     @Override
     @Transactional
-    public void deleteById(Integer id) {
+    public void deleteInstructorById(Integer id) {
         InstructorEntity instructor = entityManager.find(InstructorEntity.class, id);
+        List<CourseEntity> coursesList = instructor.getCoursesList();
+
+        // breaking the association between courses and instructor to avoid constraint violation exception
+        for (CourseEntity course : coursesList) {
+            course.setInstructor(null);
+        }
+
         entityManager.remove(instructor);
     }
 
@@ -129,5 +136,12 @@ public class InstructorDaoImpl implements InstructorDao {
     @Transactional
     public CourseEntity updateCourse(CourseEntity course) {
         return entityManager.merge(course);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourse(int courseId) {
+        CourseEntity course = entityManager.find(CourseEntity.class, courseId);
+        entityManager.remove(course);
     }
 }

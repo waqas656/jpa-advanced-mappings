@@ -24,7 +24,6 @@ public class JpaAdvancedMappingsApplication {
 		return runner -> {
 //			createInstructor(instructorDao);
 //			findInstructor(instructorDao);
-//			deleteById(instructorDao);
 //			deleteByFirstName(instructorDao);
 //			findInstructorDetailsById(instructorDao);
 //			deleteInstructorUsingCascadeInBidirectional(instructorDao);
@@ -35,8 +34,17 @@ public class JpaAdvancedMappingsApplication {
 //			findCoursesByInstructorIdWithoutJoinFetch(instructorDao);
 //			findCoursesByInstructorIdUsingJoinFetch(instructorDao);
 //			updateInstructor(instructorDao);
-			updateCourse(instructorDao);
+//			updateCourse(instructorDao);
+//			deleteInstructorById(instructorDao);
+			deleteCourse(instructorDao);
 		};
+	}
+
+	private void deleteCourse(InstructorDao instructorDao) {
+		int courseId = 1;
+
+		System.out.println("Deleting course by id: " + courseId);
+		instructorDao.deleteCourse(courseId);
 	}
 
 	private void updateCourse(InstructorDao instructorDao) {
@@ -163,11 +171,11 @@ public class JpaAdvancedMappingsApplication {
 
 	}
 
-	private void deleteById(InstructorDao instructorDao) {
-		int id = 2;
+	private void deleteInstructorById(InstructorDao instructorDao) {
+		int id = 1;
 
 		System.out.println("DELETING instructor with id: " + id);
-		instructorDao.deleteById(id);
+		instructorDao.deleteInstructorById(id);
 	}
 
 	private void deleteByFirstName(InstructorDao instructorDao) {

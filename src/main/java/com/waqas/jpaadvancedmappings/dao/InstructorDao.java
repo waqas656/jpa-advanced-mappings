@@ -10,7 +10,7 @@ public interface InstructorDao {
     void save(InstructorEntity instructorEntity);
     InstructorEntity find(Integer id);
     InstructorEntity updateInstructor(InstructorEntity instructorEntity);
-    void deleteById(Integer id);
+    void deleteInstructorById(Integer id);
     void deleteByFirstName(String firstName);
     InstructorDetailsEntity findInstructorDetailsById(int id);
     void deleteInstructorUsingCascadeInBidirectional(int id);
@@ -27,4 +27,6 @@ public interface InstructorDao {
     CourseEntity findCourseById(int courseId);
 
     CourseEntity updateCourse(CourseEntity course);
+
+    void deleteCourse(int courseId);
 }
