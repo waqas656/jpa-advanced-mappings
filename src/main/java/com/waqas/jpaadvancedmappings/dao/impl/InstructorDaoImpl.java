@@ -144,4 +144,19 @@ public class InstructorDaoImpl implements InstructorDao {
         CourseEntity course = entityManager.find(CourseEntity.class, courseId);
         entityManager.remove(course);
     }
+
+    @Override
+    @Transactional
+    public void saveCourseWithReview(CourseEntity newCourse) {
+        entityManager.persist(newCourse);
+    }
+
+    @Override
+    public CourseEntity findCourseAndCourseReviews(int courseId) {
+        TypedQuery<CourseEntity> query = entityManager.createQuery("FROM CourseEntity c " +
+                "JOIN FETCH c.reviewsList WHERE c.id = :courseId ", CourseEntity.class);
+        query.setParameter("courseId", courseId);
+
+        return query.getSingleResult();
+    }
 }

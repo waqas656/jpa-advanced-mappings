@@ -29,4 +29,8 @@ public interface InstructorDao {
     CourseEntity updateCourse(CourseEntity course);
 
     void deleteCourse(int courseId);
+
+    void saveCourseWithReview(CourseEntity newCourse);
+
+    CourseEntity findCourseAndCourseReviews(int courseId);
 }

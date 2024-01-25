@@ -4,6 +4,7 @@ import com.waqas.jpaadvancedmappings.dao.InstructorDao;
 import com.waqas.jpaadvancedmappings.entity.CourseEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorDetailsEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorEntity;
+import com.waqas.jpaadvancedmappings.entity.ReviewsEntity;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,11 +38,32 @@ public class JpaAdvancedMappingsApplication {
 //			updateCourse(instructorDao);
 //			deleteInstructorById(instructorDao);
 			deleteCourse(instructorDao);
+//			saveCourseReviews(instructorDao);
+//			findCourseAndCourseReviews(instructorDao);
 		};
 	}
 
+	private void findCourseAndCourseReviews(InstructorDao instructorDao) {
+		int courseId = 3;
+
+		System.out.println("Retrieving course with id : " + courseId);
+		CourseEntity courseWithReviews = instructorDao.findCourseAndCourseReviews(courseId);
+		System.out.println("Retrieved course : " + courseWithReviews);
+	}
+
+	private void saveCourseReviews(InstructorDao instructorDao) {
+		CourseEntity newCourse = new CourseEntity("Learn Web Frontend");
+
+		newCourse.add(new ReviewsEntity("Excellent Course !!"));
+		newCourse.add(new ReviewsEntity("It was fine but not very thorough...."));
+		newCourse.add(new ReviewsEntity("Gained some great knowledge"));
+
+		System.out.println("Saving course : " + newCourse);
+		instructorDao.saveCourseWithReview(newCourse);
+	}
+
 	private void deleteCourse(InstructorDao instructorDao) {
-		int courseId = 1;
+		int courseId = 3;
 
 		System.out.println("Deleting course by id: " + courseId);
 		instructorDao.deleteCourse(courseId);
