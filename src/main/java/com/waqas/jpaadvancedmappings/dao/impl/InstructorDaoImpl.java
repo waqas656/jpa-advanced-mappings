@@ -4,6 +4,7 @@ import com.waqas.jpaadvancedmappings.dao.InstructorDao;
 import com.waqas.jpaadvancedmappings.entity.CourseEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorDetailsEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorEntity;
+import com.waqas.jpaadvancedmappings.entity.StudentEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
@@ -158,5 +159,44 @@ public class InstructorDaoImpl implements InstructorDao {
         query.setParameter("courseId", courseId);
 
         return query.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public void saveStudentWithCourse(StudentEntity... students) { //spread operator to accept multiple student objects
+        for (StudentEntity student : students) {
+            entityManager.persist(student);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void saveCourseWithStudent(CourseEntity course) {
+        entityManager.persist(course);
+    }
+
+    @Override
+    public StudentEntity findStudentWithCourse(int studentId) {
+        TypedQuery<StudentEntity> query = entityManager.createQuery("FROM StudentEntity s " +
+                "JOIN FETCH coursesList WHERE s.id = :studentId", StudentEntity.class);
+        query.setParameter("studentId", studentId);
+
+        return query.getSingleResult();
+    }
+
+    @Override
+    public CourseEntity findCourseWithStudent(int courseId) {
+        TypedQuery<CourseEntity> query = entityManager.createQuery("FROM CourseEntity c " +
+                "JOIN FETCH c.studentsList WHERE c.id = :courseId", CourseEntity.class);
+        query.setParameter("courseId", courseId);
+
+        return query.getSingleResult();
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudentById(int studentId) {
+        StudentEntity student = entityManager.find(StudentEntity.class, studentId);
+        entityManager.remove(student);
     }
 }

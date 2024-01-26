@@ -3,7 +3,9 @@ package com.waqas.jpaadvancedmappings.entity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "course")
@@ -26,6 +28,15 @@ public class CourseEntity {
     cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private List<ReviewsEntity> reviewsList;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable (
+            name = "course_student",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private Set<StudentEntity> studentsList;
 
     public CourseEntity() {
     }
@@ -74,13 +85,28 @@ public class CourseEntity {
         reviewsList.add(review);
     }
 
+    public Set<StudentEntity> getStudentsList() {
+        return studentsList;
+    }
+
+    public void setStudentsList(Set<StudentEntity> studentsList) {
+        this.studentsList = studentsList;
+    }
+
+    public void addStudent(StudentEntity student) {
+        if (studentsList == null) {
+            studentsList = new HashSet<>();
+        }
+
+        studentsList.add(student);
+    }
+
     @Override
     public String toString() {
         return "CourseEntity{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", instructor=" + instructor +
-                ", reviewsList=" + reviewsList +
                 '}';
     }
 }

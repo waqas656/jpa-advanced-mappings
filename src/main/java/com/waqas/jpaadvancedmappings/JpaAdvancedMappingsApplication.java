@@ -1,10 +1,7 @@
 package com.waqas.jpaadvancedmappings;
 
 import com.waqas.jpaadvancedmappings.dao.InstructorDao;
-import com.waqas.jpaadvancedmappings.entity.CourseEntity;
-import com.waqas.jpaadvancedmappings.entity.InstructorDetailsEntity;
-import com.waqas.jpaadvancedmappings.entity.InstructorEntity;
-import com.waqas.jpaadvancedmappings.entity.ReviewsEntity;
+import com.waqas.jpaadvancedmappings.entity.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,10 +34,73 @@ public class JpaAdvancedMappingsApplication {
 //			updateInstructor(instructorDao);
 //			updateCourse(instructorDao);
 //			deleteInstructorById(instructorDao);
-			deleteCourse(instructorDao);
+//			deleteCourse(instructorDao);
 //			saveCourseReviews(instructorDao);
 //			findCourseAndCourseReviews(instructorDao);
+
+			//ManyToMany mapping
+//			createCourseWithStudent(instructorDao);
+//			createStudentWithCourse(instructorDao);
+//			findStudentWithCourse(instructorDao);
+//			findCourseWithStudent(instructorDao);
+//			deleteCourse(instructorDao);
+			deleteStudentById(instructorDao);
+
 		};
+	}
+
+	private void deleteStudentById(InstructorDao instructorDao) {
+		int studentId = 6;
+
+		System.out.println("Deleting student by id: " + studentId);
+		instructorDao.deleteStudentById(studentId);
+	}
+
+	private void findCourseWithStudent(InstructorDao instructorDao) {
+		int courseId = 13;
+
+		System.out.println("Finding course along with student with course id: " + courseId);
+		CourseEntity courseWithStudent = instructorDao.findCourseWithStudent(courseId);
+		System.out.println("Fetched course with students list: " + courseWithStudent.getStudentsList());
+	}
+
+	private void findStudentWithCourse(InstructorDao instructorDao) {
+		int studentId = 4;
+
+		System.out.println("Finding student along with course with student id: " + studentId);
+		StudentEntity studentWithCourse = instructorDao.findStudentWithCourse(studentId);
+		System.out.println("Fetched student with courses list: " + studentWithCourse.getCoursesList());
+	}
+
+	private void createStudentWithCourse(InstructorDao instructorDao) {
+		StudentEntity student1 = new StudentEntity("Shahzain", "Shahzain@gmail.com");
+		StudentEntity student2 = new StudentEntity("Azlaan", "Azlaan@gmail.com");
+
+		System.out.println("Creating new course");
+		CourseEntity course = new CourseEntity("Developing projects end to end");
+
+		student1.addCourse(course);
+		student2.addCourse(course);
+
+		System.out.println("Saving student : \n" + student1 + " with course :\n" + course);
+		System.out.println("Saving student : \n" + student2 + " with course :\n" + course);
+		instructorDao.saveStudentWithCourse(student1, student2);
+	}
+
+	private void createCourseWithStudent(InstructorDao instructorDao) {
+		StudentEntity student1 = new StudentEntity("Shahzain", "Shahzain@gmail.com");
+		StudentEntity student2 = new StudentEntity("Azlaan", "Azlaan@gmail.com");
+
+		System.out.println("Saving course...");
+		CourseEntity course = new CourseEntity("Developing projects end to end");
+
+		course.addStudent(student1);
+		course.addStudent(student2);
+
+
+		System.out.println("Saving course : \n" + course + " with students");
+		instructorDao.saveCourseWithStudent(course);
+		System.out.println("Saved course !!");
 	}
 
 	private void findCourseAndCourseReviews(InstructorDao instructorDao) {
@@ -63,7 +123,7 @@ public class JpaAdvancedMappingsApplication {
 	}
 
 	private void deleteCourse(InstructorDao instructorDao) {
-		int courseId = 3;
+		int courseId = 13;
 
 		System.out.println("Deleting course by id: " + courseId);
 		instructorDao.deleteCourse(courseId);

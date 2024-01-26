@@ -3,6 +3,7 @@ package com.waqas.jpaadvancedmappings.dao;
 import com.waqas.jpaadvancedmappings.entity.CourseEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorDetailsEntity;
 import com.waqas.jpaadvancedmappings.entity.InstructorEntity;
+import com.waqas.jpaadvancedmappings.entity.StudentEntity;
 
 import java.util.List;
 
@@ -33,4 +34,14 @@ public interface InstructorDao {
     void saveCourseWithReview(CourseEntity newCourse);
 
     CourseEntity findCourseAndCourseReviews(int courseId);
+
+    void saveStudentWithCourse(StudentEntity... student);
+
+    void saveCourseWithStudent(CourseEntity course);
+
+    StudentEntity findStudentWithCourse(int studentId);
+
+    CourseEntity findCourseWithStudent(int courseId);
+
+    void deleteStudentById(int studentId);
 }
